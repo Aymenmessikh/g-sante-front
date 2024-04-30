@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
-import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
-import notify from 'devextreme/ui/notify';
+import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator'
 import { AuthService } from '../../services';
+import {LoginRequest} from "../../../Classes/LoginRequest";
+import {LoginResponse} from "../../../Classes/LoginResponse";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -14,20 +16,37 @@ import { AuthService } from '../../services';
 })
 export class LoginFormComponent {
   loading = false;
-  formData: any = {};
+  formData!: LoginRequest;
+  loginResponse!:LoginResponse
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router,private notification:ToastrService) {
+    this.resetForm()
+    localStorage.clear()
+  }
+  resetForm(){
+    this.formData={
+      email: "", password: ""
 
+    }
+}
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { email, password } = this.formData;
     this.loading = true;
-
-    const result = await this.authService.logIn(email, password);
-    if (!result.isOk) {
+    this.authService.login(this.formData).subscribe(response=>{
+      this.loginResponse=response
+      localStorage.setItem("token",this.loginResponse.token)
+      localStorage.setItem("role",this.loginResponse.role)
+      localStorage.setItem("nom",this.loginResponse.nom)
+      localStorage.setItem("prenom",this.loginResponse.prenom)
       this.loading = false;
-      notify(result.message, 'error', 2000);
+      this.notification.success("Login")
+      this.router.navigate(['/home']);
+    },error => {console.log(error)
+    this.notification.error('Faild')
+      this.loading = false;
     }
+
+    )
   }
 
   onCreateAccountClick = () => {

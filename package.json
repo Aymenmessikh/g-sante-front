@@ -21,9 +21,12 @@
     "@angular/platform-browser": "^15.2.0",
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
+    "ag-charts-angular": "^9.2.0",
+    "ng-apexcharts": "^1.10.0",
     "devextreme": "23.2.3",
     "devextreme-angular": "23.2.3",
     "devextreme-schematics": "^1.2.14",
+    "ngx-toastr": "^16.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -41,6 +44,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~4.9.4"
-  }
+    "typescript": "~4.9.4",
+    "sass": "^1.42.1"
+    }
 }

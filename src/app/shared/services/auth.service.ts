@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import {LoginRequest} from "../../Classes/LoginRequest";
+import {Observable} from "rxjs";
+import {RegistreRequest} from "../../Classes/RegistreRequest";
+import {LoginResponse} from "../../Classes/LoginResponse";
+import {HttpClient} from "@angular/common/http";
+import { environment } from '../environment/environment';
+import DevExpress from "devextreme";
+import data = DevExpress.data;
 
 export interface IUser {
   email: string;
@@ -24,99 +32,28 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
-
-  async logIn(email: string, password: string) {
-
-    try {
-      // Send request
-      this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
-
-      return {
-        isOk: true,
-        data: this._user
-      };
-    }
-    catch {
-      return {
-        isOk: false,
-        message: "Authentication failed"
-      };
-    }
-  }
-
-  async getUser() {
-    try {
-      // Send request
-
-      return {
-        isOk: true,
-        data: this._user
-      };
-    }
-    catch {
-      return {
-        isOk: false,
-        data: null
-      };
-    }
-  }
-
-  async createAccount(email: string, password: string) {
-    try {
-      // Send request
-
-      this.router.navigate(['/create-account']);
-      return {
-        isOk: true
-      };
-    }
-    catch {
-      return {
-        isOk: false,
-        message: "Failed to create account"
-      };
-    }
-  }
-
-  async changePassword(email: string, recoveryCode: string) {
-    try {
-      // Send request
-
-      return {
-        isOk: true
-      };
-    }
-    catch {
-      return {
-        isOk: false,
-        message: "Failed to change password"
-      }
-    }
-  }
-
-  async resetPassword(email: string) {
-    try {
-      // Send request
-
-      return {
-        isOk: true
-      };
-    }
-    catch {
-      return {
-        isOk: false,
-        message: "Failed to reset password"
-      };
-    }
-  }
+  constructor(private router: Router,private Http:HttpClient) { }
 
   async logOut() {
-    this._user = null;
     this.router.navigate(['/login-form']);
   }
+  private  apiServerUrl=environment.apiUrl;
+  public login(loginRequest:LoginRequest){
+    return this.Http.post<LoginResponse>(`${this.apiServerUrl}/auth/authenticate`,loginRequest)};
+  public isLogin(){
+    return localStorage.getItem("token")!=null;
+  }
+  public isAdmin(){
+    return localStorage.getItem("role")==="ADMIN";
+  }
+  public registre(registre:RegistreRequest): Observable<RegistreRequest>{
+    return this.Http.post<RegistreRequest>(`${this.apiServerUrl}/auth/register`,registre);
+  }
+  GetToken(){
+    return localStorage.getItem('token');
+  }
 }
+
 
 @Injectable()
 export class AuthGuardService implements CanActivate {

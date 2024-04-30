@@ -1,0 +1,24 @@
+<div class="content-block">
+  <div  class="dx-card responsive-paddings">
+    <h4 class="content-block">DASHBOARD</h4>
+    <div style="display: flex;justify-content: space-between">
+      <div style="height: 400px;width:600px;margin: 15px ">
+        <ag-charts-angular
+          *ngIf="options"
+          [options]="options"
+          color="options.data.fill"
+        >
+        </ag-charts-angular>
+      </div>
+<!--      <div id="chart" style="height: 600px;width: 600px">-->
+<!--        <apx-chart-->
+<!--          [series]="chartOptions.series"-->
+<!--          [chart]="chartOptions.chart"-->
+<!--          [labels]="chartOptions.labels"-->
+<!--          [title]="title"-->
+<!--          [responsive]="chartOptions.responsive"-->
+<!--        ></apx-chart>-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>

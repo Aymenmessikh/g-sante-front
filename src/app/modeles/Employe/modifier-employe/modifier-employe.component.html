@@ -1,0 +1,73 @@
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <h4 class="content-block" style="margin: -4px 40px">Modifier  Employe</h4>
+    <form  (submit)="saveChanges($event)">
+      <dx-form  [formData]="employe">
+        <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
+          <dxi-item itemType="group" [colSpan]="3">
+            <dxi-item dataField="nom" [editorOptions]="{ stylingMode: 'filled',value:employe.nom, placeholder: 'Nom', mode: '' }">
+              <dxi-validation-rule type="required" message="Nom is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="prenom" [editorOptions]="{ stylingMode: 'filled',value:employe.prenom, placeholder: 'Prenom', mode: '' }">
+              <dxi-validation-rule type="required" message="Prenom is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="address" [editorOptions]="{ stylingMode: 'filled',value:employe.address, placeholder: 'Address', mode: '' }">
+              <dxi-validation-rule type="required" message="Address is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="ville" [editorOptions]="{ stylingMode: 'filled',value:employe.ville, placeholder: 'Ville', mode: '' }">
+              <dxi-validation-rule type="required" message="Ville is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="codePostal" [editorOptions]="{ stylingMode: 'filled',value:employe.codePostal, placeholder: 'Code Postal', mode: '' }">
+              <dxi-validation-rule type="required" message="Code Postal is required"></dxi-validation-rule>
+            </dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group" [colSpan]="3">
+            <dxi-item dataField="sex" editorType="dxSelectBox">
+              <dx-select-box
+                [dataSource]="sex"
+                [(value)]="employe.sex"
+                [searchEnabled]="true">
+              </dx-select-box>
+              <dxi-validation-rule type="required" message="Sex is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item
+              dataField="date_naissance"
+              editorType="dxDateBox"
+              [editorOptions]="{ width: '100%',value:employe.date_naissance }"
+            >
+              <dxi-validation-rule type="required" message="Date Naissance is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="mail"
+                      [editorOptions]="{ stylingMode: 'filled',value:employe.mail, placeholder: 'Email', mode: 'email' }">
+              <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+              <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item
+              dataField="tel"
+              [label]="{ text: 'Phone' }" [editorOptions]="{ stylingMode: 'filled',value:employe.prenom, placeholder: 'Phone', mode: '' }"
+
+            >
+              <dxi-validation-rule type="required" message="Telephone is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="Post"  editorType="dxSelectBox">
+              <dx-select-box
+                [dataSource]="posts"
+                valueExpr="idPost"
+                displayExpr="fonction"
+                [(value)]="employe.post"
+                placeholder="Select a value..."
+                [searchEnabled]="true">
+              </dx-select-box>
+              <dxi-validation-rule type="required" message="Post is required"></dxi-validation-rule>
+            </dxi-item>
+          </dxi-item>
+        </dxi-item>
+        <dxi-item
+          itemType="button"
+          [buttonOptions]="submitButtonOptions">
+        </dxi-item>
+      </dx-form>
+      <dx-button type="default" style="margin-top: -78px;margin-left: 84%" class="btn" (click)="annuler()" text="Annuler"></dx-button>
+    </form>
+  </div>
+</div>

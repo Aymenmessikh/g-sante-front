@@ -1,0 +1,268 @@
+<div class="content-block">
+  <div class="page dx-card responsive-paddings">
+    <div style="display: flex;justify-content: space-between;margin-top: -30px">
+      <h4 class="content-block">Postes</h4>
+      <dx-button text="Ajouter Nouveau Poste" style="margin-top: 25px" (click)="changeAjouterPost()" type="default"></dx-button>
+    </div>
+    <div style="display: flex;justify-content: center">
+      <div style="width: 1300px">
+        <dx-data-grid class="dx-card wide-card"
+                      [dataSource]="posts"
+                      [showBorders]="false"
+                      [focusedRowEnabled]="true"
+                      [focusedRowIndex]="0"
+                      [columnAutoWidth]="true"
+                      [columnHidingEnabled]="true"
+                      keyExpr="idPost">
+
+          <dxo-paging [pageSize]="7"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+          <dxi-column
+            dataField="codePost"
+            caption="Code Poste"
+            [width]="210"
+            [hidingPriority]="2">
+          </dxi-column>
+          <dxi-column
+            dataField="direction"
+            caption="Direction"
+            [hidingPriority]="2">
+          </dxi-column>
+          <dxi-column
+            dataField="department"
+            caption="Department"
+            [hidingPriority]="2">
+          </dxi-column>
+          <dxi-column
+            dataField="fonction"
+            caption="Fonction"
+            [hidingPriority]="2">
+          </dxi-column>
+          <dxi-column width="150px" caption="Action" cellTemplate="Dettaile"></dxi-column>
+          <div *dxTemplate="let data of 'Dettaile'" style="display: flex;justify-content: space-between">
+            <div>
+              <dx-button icon="description" (click)="changeDettailePost(data)" class="btn"  cellTemplate="Dettaile">
+              </dx-button>
+            </div>
+            <div>
+              <dx-button icon="edit"
+                         class="btn"
+                         (click)="chaneModifierPost(data)"
+                         cellTemplate="Dettaile">
+              </dx-button>
+            </div>
+            <div>
+              <dx-button cellTemplate="Dettaile"
+                         icon="trash"
+                         hint="Supprimer"
+                         (click)="changePopupeVisible(data)">
+              </dx-button>
+            </div>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<dx-popup
+  [width]="1000"
+  [height]="530"
+  [showTitle]="true"
+  title="Ajouter Poste"
+  [dragEnabled]="false"
+  [showCloseButton]="true"
+  [(visible)]="AjouterPost"
+>
+  <form (submit)="ajouter($event)">
+    <dx-form  [formData]="post">
+      <dxi-item  itemType="group" cssClass="form-group" [colCount]="2">
+        <dxi-item itemType="group" [colSpan]="3">
+          <dxi-item dataField="direction" [editorOptions]="{ stylingMode: 'filled', placeholder: 'Direction', mode: '' }">
+            <dxi-validation-rule type="required" message="Direction is required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="department" [editorOptions]="{ stylingMode: 'filled', placeholder: 'Department', mode: '' }">
+            <dxi-validation-rule type="required" message="Department is required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="fonction" [editorOptions]="{ stylingMode: 'filled', placeholder: 'Fonction', mode: ''}">
+            <dxi-validation-rule type="required" message="Fonction is required"></dxi-validation-rule>
+          </dxi-item>
+        </dxi-item>
+        <dxi-item itemType="group" [colSpan]="3">
+          <dxi-item dataField="Risques" editorType="dxSelectBox">
+            <dx-drop-down-box
+              [dataSource]="risque"
+              valueExpr="id"
+              displayExpr="risque"
+              [(value)]="post.idRisque"
+              placeholder="Select a value..."
+              [showClearButton]="true"
+              [inputAttr]="{ 'aria-label': 'Owner' }">
+              <div *dxTemplate="let data of 'content'">
+                <dx-tree-view
+                  [dataSource]="risque"
+                  dataStructure="plain"
+                  keyExpr="id"
+                  selectionMode="multiple"
+                  showCheckBoxesMode="normal"
+                  [selectNodesRecursive]="true"
+                  displayExpr="risque"
+                  [selectByClick]="true"
+                  (onSelectionChanged)="TreeViewSelectionChanged($event)">
+                </dx-tree-view>
+              </div>
+            </dx-drop-down-box>
+            <dxi-validation-rule type="required" message="Risque is required"></dxi-validation-rule>
+          </dxi-item>
+        </dxi-item>
+      </dxi-item>
+      <dxi-item
+        itemType="button"
+        [buttonOptions]="submitButtonOptions">
+      </dxi-item>
+    </dx-form>
+  </form>
+</dx-popup>
+
+<dx-popup
+  [width]="500"
+  [height]="300"
+  [dragEnabled]="false"
+  [showCloseButton]="true"
+  [(visible)]="popupVisible"
+>
+  <div>
+    <p class="content-block" style="display: flex;justify-content: center;font-size: 18px">
+      Are you sure you want to delete this Poste?
+    </p>
+  </div>
+  <div style="display: flex;justify-content: space-around;margin-top: 80px">
+    <dxi-toolbar-item>
+      <dx-button text="YES" (click)="delete()"></dx-button>
+    </dxi-toolbar-item>
+    <dxi-toolbar-item>
+      <dx-button text="NO" (click)="annuler()"></dx-button>
+    </dxi-toolbar-item>
+  </div>
+</dx-popup>
+
+
+<dx-popup *ngIf="DettailePost"
+          [width]="1000"
+          [height]="500"
+          [showTitle]="true"
+          title="Dettaile de Poste"
+          [dragEnabled]="false"
+          [showCloseButton]="true"
+          [(visible)]="DettailePost"
+>
+  <form (submit)="ajouter($event)">
+    <dx-form  [formData]="post">
+      <dxi-item  itemType="group" cssClass="form-group" [colCount]="2">
+        <dxi-item itemType="group" [colSpan]="3">
+          <dxi-item dataField="direction" [editorOptions]="{ stylingMode: 'filled',value:getPostById.direction, placeholder: 'Direction', mode: '' }">
+            <dxi-validation-rule type="required" message="Direction is required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="department" [editorOptions]="{ stylingMode: 'filled',value:getPostById.department, placeholder: 'Department', mode: '' }">
+            <dxi-validation-rule type="required" message="Department is required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="fonction" [editorOptions]="{ stylingMode: 'filled' ,value:getPostById.fonction, placeholder: 'Fonction', mode: ''}">
+            <dxi-validation-rule type="required" message="Fonction is required"></dxi-validation-rule>
+          </dxi-item>
+        </dxi-item>
+        <dxi-item itemType="group" [colSpan]="3">
+          <dxi-item dataField="Risques" editorType="dxSelectBox">
+            <dx-drop-down-box
+              [dataSource]="risque"
+              valueExpr="id"
+              displayExpr="risque"
+              [(value)]="getPostById.risques"
+              placeholder="Select a value..."
+              [showClearButton]="true"
+              [inputAttr]="{ 'aria-label': 'Owner' }">
+              <div *dxTemplate="let data of 'content'">
+                <dx-tree-view
+                  [dataSource]="risque"
+                  dataStructure="plain"
+                  keyExpr="id"
+                  selectionMode="multiple"
+                  showCheckBoxesMode="normal"
+                  [selectNodesRecursive]="true"
+                  displayExpr="risque"
+                  [selectByClick]="true"
+                  (onSelectionChanged)="TreeViewSelectionChanged($event)">
+                </dx-tree-view>
+              </div>
+            </dx-drop-down-box>
+            <dxi-validation-rule type="required" message="Risque is required"></dxi-validation-rule>
+          </dxi-item>
+        </dxi-item>
+      </dxi-item>
+    </dx-form>
+    <dx-button text="Retour" (click)="annullerDettailePost()" style="margin-left: 84%" type="default"></dx-button>
+  </form>
+</dx-popup>
+
+
+<dx-popup *ngIf="ModifierPost"
+          [width]="1000"
+          [height]="530"
+          [showTitle]="true"
+          title="Modifier Poste"
+          [dragEnabled]="false"
+          [showCloseButton]="true"
+          [(visible)]="ModifierPost"
+>
+  <form (submit)="Modifier($event)">
+    <dx-form  [formData]="post">
+      <dxi-item  itemType="group" cssClass="form-group" [colCount]="2">
+        <dxi-item itemType="group" [colSpan]="3">
+          <dxi-item dataField="direction" [editorOptions]="{ stylingMode: 'filled',value:getPostById.direction, placeholder: 'Direction', mode: '' }">
+            <dxi-validation-rule type="required" message="Direction is required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="department" [editorOptions]="{ stylingMode: 'filled',value:getPostById.department, placeholder: 'Department', mode: '' }">
+            <dxi-validation-rule type="required" message="Department is required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="fonction" [editorOptions]="{ stylingMode: 'filled',value:getPostById.fonction, placeholder: 'Fonction', mode: ''}">
+            <dxi-validation-rule type="required" message="Fonction is required"></dxi-validation-rule>
+          </dxi-item>
+        </dxi-item>
+        <dxi-item itemType="group" [colSpan]="3">
+          <dxi-item dataField="Risques" editorType="dxSelectBox">
+            <dx-drop-down-box
+              [dataSource]="risque"
+              valueExpr="id"
+              displayExpr="risque"
+              [(value)]="post.idRisque"
+              placeholder="Select a value..."
+              [showClearButton]="true"
+              [inputAttr]="{ 'aria-label': 'Owner' }">
+              <div *dxTemplate="let data of 'content'">
+                <dx-tree-view
+                  [dataSource]="risque"
+                  dataStructure="plain"
+                  keyExpr="id"
+                  selectionMode="multiple"
+                  showCheckBoxesMode="normal"
+                  [selectNodesRecursive]="true"
+                  displayExpr="risque"
+                  [selectByClick]="true"
+                  (onSelectionChanged)="TreeViewSelectionChanged($event)">
+                </dx-tree-view>
+              </div>
+            </dx-drop-down-box>
+            <dxi-validation-rule type="required" message="Risque is required"></dxi-validation-rule>
+          </dxi-item>
+        </dxi-item>
+      </dxi-item>
+      <dxi-item
+        itemType="button"
+        [buttonOptions]="submitButtonOption">
+      </dxi-item>
+    </dx-form>
+    <dx-button text="Annuler" style="margin-left: 78%;margin-top: -75px" (click)="anullerModiefierPost()" type="default"></dx-button>
+  </form>
+</dx-popup>

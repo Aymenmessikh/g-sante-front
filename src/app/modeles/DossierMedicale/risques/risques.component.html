@@ -1,0 +1,18 @@
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div>
+      <h2 class="content-block">Les Controles Medicale et les Risque </h2>
+      <dx-data-grid
+        id="idPeriodicite"
+        [dataSource]="periodiciteControleMedicale"
+        keyExpr="idPeriodicite"
+        [showBorders]="true"
+      >
+        <dxi-column dataField="risque" caption="Risque"></dxi-column>
+        <dxi-column dataField="typeControle" caption="Type Controle"></dxi-column>
+        <dxi-column dataField="controle" caption="Controle"></dxi-column>
+        <dxi-column dataField="periodicte" caption="Periodicite"></dxi-column>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

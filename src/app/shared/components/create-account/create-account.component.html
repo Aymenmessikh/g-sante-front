@@ -1,0 +1,72 @@
+<div class="content-block" style="display: flex;justify-content: center">
+  <div class="dx-card responsive-paddings">
+    <h4 class="content-block" >Créer un nouveau compte</h4>
+  <div class="dx-card responsive-paddings" style="width: 900px;height: 440px">
+    <form class="create-account-form" (submit)="onSubmit($event)">
+      <dx-form [formData]="formData" [disabled]="loading">
+        <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
+          <dxi-item itemType="group" [colSpan]="3">
+            <dxi-item dataField="email" editorType="dxTextBox"
+                      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Email', mode: 'email' }">
+              <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+              <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+            <dxi-item dataField="nom" editorType="dxTextBox"
+                      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Nom'}">
+              <dxi-validation-rule type="required" message="Nom is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+            <dxi-item dataField="prenom" editorType="dxTextBox"
+                      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Prenom' }">
+              <dxi-validation-rule type="required" message="Prenom is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+          </dxi-item>
+            <dxi-item itemType="group" [colSpan]="3">
+            <dxi-item dataField="role" editorType="dxSelectBox">
+              <dx-select-box
+                [dataSource]="roles"
+                [(value)]="formData.role"
+                [searchEnabled]="true">
+              </dx-select-box>
+              <dxi-validation-rule type="required" message="Role is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="password" editorType="dxTextBox"
+                      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Password', mode: 'password' }">
+              <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="confirmePassword" editorType="dxTextBox"
+                      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Confirm Password', mode: 'password' }">
+              <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+              <dxi-validation-rule type="custom" message="Passwords do not match" [validationCallback]="confirmPassword">
+              </dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+            </dxi-item>
+          </dxi-item>
+
+        <dxi-item itemType="button">
+          <dxo-button-options width="220px" type="default" [useSubmitBehavior]="true" [template]="'createAccountTemplate'">
+          </dxo-button-options>
+        </dxi-item>
+
+        <ng-container *dxTemplate="let item of 'createAccountTemplate'">
+          <div>
+        <span class="dx-button-text">
+          <ng-container *ngIf="loading; else notLoading">
+            <dx-load-indicator width="24px" height="24px" [visible]="true"></dx-load-indicator>
+          </ng-container>
+
+          <ng-template #notLoading>Créer un compte</ng-template>
+        </span>
+          </div>
+        </ng-container>
+      </dx-form>
+    </form>
+
+  </div>
+  </div>
+</div>

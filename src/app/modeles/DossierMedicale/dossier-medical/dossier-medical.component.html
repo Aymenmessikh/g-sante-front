@@ -1,0 +1,29 @@
+<div class="content-block">
+  <div class="page dx-card responsive-paddings">
+    <div class="nav" style="margin:-40px 20px">
+      <h4 class="content-block">Dossier Medicale</h4>
+    </div>
+    <div class="tabs-demo">
+      <div class="widget-container">
+        <div [ngClass]="widgetWrapperClasses">
+          <dx-tabs
+            [width]="witdh"
+            [selectedIndex]="0"
+            [rtlEnabled]="false"
+            [scrollByContent]="false"
+            [showNavButtons]="false"
+            [dataSource]="tabs"
+            (onItemClick)="onTabClick($event.itemData)"
+          ></dx-tabs>
+        </div>
+      </div>
+    </div>
+    <div [ngSwitch]="page">
+      <div *ngSwitchCase="'Fiche Medicale'"><app-get-fichier-medical></app-get-fichier-medical></div>
+      <div *ngSwitchCase="'Risques'"><app-risques></app-risques></div>
+      <div *ngSwitchCase="'Ajouter Fiche Medicale'"><app-ajouter-fichier-medical></app-ajouter-fichier-medical></div>
+      <div *ngSwitchDefault><app-get-employe></app-get-employe></div>
+<!--      <div *ngSwitchCase="'modifierFichierMedical'"><app-modifier-fichier-medicale></app-modifier-fichier-medicale></div>-->
+    </div>
+  </div>
+</div>

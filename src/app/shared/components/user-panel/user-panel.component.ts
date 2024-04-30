@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { DxListModule } from 'devextreme-angular/ui/list';
 import { DxContextMenuModule } from 'devextreme-angular/ui/context-menu';
 import { IUser } from '../../services/auth.service';
+import {DxButtonModule} from "devextreme-angular";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-panel',
@@ -20,15 +22,22 @@ export class UserPanelComponent {
 
   @Input()
   user!: IUser | null;
+  nom:any=localStorage.getItem("nom")
+  prenom:any=localStorage.getItem("prenom")
+  logout(){
+    this.routes.navigate(['login-form'])
+    localStorage.clear()
+  }
 
-  constructor() {}
+  constructor(private routes:Router) {}
 }
 
 @NgModule({
   imports: [
     DxListModule,
     DxContextMenuModule,
-    CommonModule
+    CommonModule,
+    DxButtonModule
   ],
   declarations: [ UserPanelComponent ],
   exports: [ UserPanelComponent ]

@@ -7,6 +7,7 @@ import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
 
 import { Router } from '@angular/router';
+import {ToastrService} from "ngx-toastr";
 @Component({
   selector: 'app-header',
   templateUrl: 'header.component.html',
@@ -36,14 +37,15 @@ export class HeaderComponent implements OnInit {
     text: 'Logout',
     icon: 'runner',
     onClick: () => {
+      localStorage.clear()
+      this.notification.success("Logout")
       this.authService.logOut();
     }
   }];
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router,private notification:ToastrService) { }
 
   ngOnInit() {
-    this.authService.getUser().then((e) => this.user = e.data);
   }
 
   toggleMenu = () => {

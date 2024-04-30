@@ -1,0 +1,127 @@
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="content-block">
+      <div class="dx-card responsive-paddings">
+        <div>
+          <div style="margin-top: -40px;display: flex;justify-content: space-between">
+            <div><h4 class="content-block">Modifier Fichier Medicale</h4></div>
+          </div>
+          <div style="margin-top: -40px">
+            <form (submit)="Modifier($event)">
+              <dx-form [formData]="fichier">
+                <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
+                  <dxi-item itemType="group" [colSpan]="3">
+                    <dxi-item dataField="poid"
+                              [editorOptions]="{ stylingMode: 'filled',value:dossierMedical.poid, placeholder: 'Poid', mode: '' }">
+                      <dxi-validation-rule type="required" message="Poid is required"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="taille"
+                              [editorOptions]="{ stylingMode: 'filled',value:dossierMedical.taille, placeholder: 'Taille', mode: '' }">
+                      <dxi-validation-rule type="required" message="Taille is required"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="groupSanguin" editorType="dxSelectBox">
+                      <dx-select-box
+                        [dataSource]="groupSanguin"
+                        [(value)]="dossierMedical.groupSanguin"
+                        [searchEnabled]="true">
+                      </dx-select-box>
+                      <dxi-validation-rule type="required" message="Group Sanguin is required"></dxi-validation-rule>
+                    </dxi-item>
+                  </dxi-item>
+                  <dxi-item itemType="group" [colSpan]="3">
+                    <dxi-item dataField="maladie_chronique" editorType="dxSelectBox">
+                      <dx-drop-down-box
+                        [dataSource]="maladiechronique"
+                        valueExpr="id"
+                        displayExpr="malladieChronique"
+                        placeholder="Select a value..."
+                        [showClearButton]="true"
+                        [inputAttr]="{ 'aria-label': 'Owner' }">
+                        <div *dxTemplate="let data of 'content'">
+                          <dx-tree-view
+                            [dataSource]="maladiechronique"
+                            dataStructure="plain"
+                            keyExpr="id"
+                            selectionMode="multiple"
+                            showCheckBoxesMode="normal"
+                            [selectNodesRecursive]="true"
+                            displayExpr="malladieChronique"
+                            [selectByClick]="true"
+                            (onSelectionChanged)="onTreeViewSelectionChanged($event)">
+                          </dx-tree-view>
+                        </div>
+                      </dx-drop-down-box>
+                    </dxi-item>
+                    <dxi-item dataField="allergier" editorType="dxSelectBox">
+                      <dx-drop-down-box
+                        [dataSource]="allergier"
+                        valueExpr="id"
+                        displayExpr="allergie"
+                        value="dossierMedical.allergier"
+                        placeholder="Select a value..."
+                        [showClearButton]="true"
+                        [inputAttr]="{ 'aria-label': 'Owner' }">
+                        <div *dxTemplate="let data of 'content'">
+                          <dx-tree-view
+                            [dataSource]="allergier"
+                            dataStructure="plain"
+                            keyExpr="id"
+                            selectionMode="multiple"
+                            showCheckBoxesMode="normal"
+                            [selectNodesRecursive]="true"
+                            displayExpr="allergie"
+                            [selectByClick]="true"
+                            (onSelectionChanged)="onTreeeViewSelectionChanged($event)">
+                          </dx-tree-view>
+                        </div>
+                      </dx-drop-down-box>
+                    </dxi-item>
+                    <dxi-item dataField="Vaccins" editorType="dxSelectBox">
+                      <dx-drop-down-box
+                        [dataSource]="vaccins"
+                        valueExpr="id"
+                        displayExpr="vaccin"
+                        placeholder="Select a value..."
+                        [showClearButton]="true"
+                        [inputAttr]="{ 'aria-label': 'Owner' }">
+                        <div *dxTemplate="let data of 'content'">
+                          <dx-tree-view
+                            [dataSource]="vaccins"
+                            dataStructure="plain"
+                            keyExpr="id"
+                            selectionMode="multiple"
+                            showCheckBoxesMode="normal"
+                            [selectNodesRecursive]="true"
+                            displayExpr="vaccin"
+                            [selectByClick]="true"
+                            (onSelectionChanged)="onTreeeeViewSelectionChanged($event)">
+                          </dx-tree-view>
+                        </div>
+                      </dx-drop-down-box>
+                    </dxi-item>
+                  </dxi-item>
+                  <dxi-item itemType="group">
+                    <dxi-item dataField="Notes"
+                              [editorOptions]="{ stylingMode: 'filled',value:dossierMedical.notes, placeholder: 'Note', mode: '' }">
+                      <dxi-validation-rule type="required" message="Note is required"></dxi-validation-rule>
+                    </dxi-item>
+                  </dxi-item>
+
+                </dxi-item>
+
+                <dxi-item
+                  itemType="button"
+                  [buttonOptions]="submitButtonOptions">
+                </dxi-item>
+              </dx-form>
+            </form>
+          </div>
+          <dx-button text="Annuler" type="default" style="margin-left: 81%;margin-top: -78px" routerLink="/dossierMed">
+
+          </dx-button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,33 +1,35 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from "../../shared/services/user.service";
+import {UserDto} from "../../Classes/UserDto";
 
 @Component({
   templateUrl: 'profile.component.html',
   styleUrls: [ './profile.component.scss' ]
 })
 
-export class ProfileComponent {
-  employee: any;
+export class ProfileComponent implements OnInit{
   colCountByScreen: object;
 
-  constructor() {
-    this.employee = {
-      ID: 7,
-      FirstName: 'Sandra',
-      LastName: 'Johnson',
-      Prefix: 'Mrs.',
-      Position: 'Controller',
-      Picture: 'images/employees/06.png',
-      BirthDate: new Date('1974/11/5'),
-      HireDate: new Date('2005/05/11'),
-      /* tslint:disable-next-line:max-line-length */
-      Notes: 'Sandra is a CPA and has been our controller since 2008. She loves to interact with staff so if you`ve not met her, be certain to say hi.\r\n\r\nSandra has 2 daughters both of whom are accomplished gymnasts.',
-      Address: '4600 N Virginia Rd.'
+  constructor( private service:UserService) {
+    this.user = {
+      email: "", id: 0, matricule: "", nome: "", prenom: "", role: ""
     };
     this.colCountByScreen = {
       xs: 1,
       sm: 2,
       md: 3,
-      lg: 4
+      lg: 2
     };
+  }
+  user!:UserDto
+  token:any=localStorage.getItem('token')
+  getUser(){
+    this.service.getUser(this.token).subscribe(response=>{
+      this.user=response
+    },error => console.log(error))
+  }
+
+  ngOnInit(): void {
+    this.getUser()
   }
 }

@@ -1,0 +1,221 @@
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div style="margin-top: -45px">
+      <h4 class="content-block">Ajouter Fiche Medicale</h4>
+    </div>
+    <dx-tab-panel style="margin-top: -40px">
+      <dxi-item title="Fiche Medicale" icon="description">
+        <dx-form [formData]="dossierMedical">
+          <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
+            <dxi-item itemType="group" [colSpan]="3">
+              <dxi-item dataField="poid" [editorOptions]="{ stylingMode: 'filled', placeholder: 'Poid', mode: '' }">
+                <dxi-validation-rule type="required" message="Poid is required"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="taille" [editorOptions]="{ stylingMode: 'filled', placeholder: 'Taille', mode: '' }">
+                <dxi-validation-rule type="required" message="Taille is required"></dxi-validation-rule>
+              </dxi-item>
+            </dxi-item>
+            <dxi-item itemType="group" [colSpan]="3">
+              <dxi-item dataField="groupSanguin" editorType="dxSelectBox">
+                <dx-select-box
+                  [dataSource]="groupSanguin"
+                  [(value)]="dossierMedical.groupSanguin"
+                  [searchEnabled]="true">
+                </dx-select-box>
+                <dxi-validation-rule type="required" message="Group Sanguin is required"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="Vaccins" editorType="dxSelectBox">
+                <dx-drop-down-box
+                  [dataSource]="vaccins"
+                  valueExpr="id"
+                  displayExpr="vaccin"
+                  [(value)]="dossierMedical.idVaccins"
+                  placeholder="Select a value..."
+                  [showClearButton]="true"
+                  [inputAttr]="{ 'aria-label': 'Owner' }">
+                  <div *dxTemplate="let data of 'content'">
+                    <dx-tree-view
+                      [dataSource]="vaccins"
+                      dataStructure="plain"
+                      keyExpr="id"
+                      selectionMode="multiple"
+                      showCheckBoxesMode="normal"
+                      [selectNodesRecursive]="true"
+                      displayExpr="vaccin"
+                      [selectByClick]="true"
+                      (onSelectionChanged)="onTreeeeViewSelectionChanged($event)">
+                    </dx-tree-view>
+                  </div>
+                </dx-drop-down-box>
+              </dxi-item>
+            </dxi-item>
+            <dxi-item itemType="group">
+              <dxi-item dataField="notes">
+                <dxi-validation-rule type="required" message="Note is required"></dxi-validation-rule>
+              </dxi-item>
+            </dxi-item>
+            <dxi-item>
+              <div style="display: flex;">
+                <h2 class="content-block">AjouterMaladies Chronique</h2>
+                <dx-button style="margin-top: 20px" icon="add" type="success" (click)="changeAjouterMaladiesChronique()"></dx-button>
+              </div>
+            </dxi-item>
+          </dxi-item>
+        </dx-form>
+      </dxi-item>
+      <dxi-item title="Maladies Chronique" icon="isnotblank">
+        <dxi-item>
+          <div>
+            <h2 class="content-block">Les Controles Medicale associe aux Maladies Chronique</h2>
+          </div>
+        </dxi-item>
+        <div>
+          <dx-data-grid
+            id="id"
+            [dataSource]="afficherControleByMaladiesChronique"
+            keyExpr="id"
+            [showBorders]="true"
+          >
+            <dxi-column [width]="200" dataField="maladieChronique" caption="Maladie Chronique"></dxi-column>
+            <dxi-column [width]="200" dataField="typeControle" caption="Type Controle"></dxi-column>
+            <dxi-column [width]="200" dataField="controle" caption="Controle"></dxi-column>
+            <dxi-column [width]="200" dataField="periodicte" caption="Periodicite"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </dxi-item>
+      <dxi-item title="Risque" icon="isnotblank">
+        <div>
+          <h2 class="content-block">Les Controles Medicale associe aux Risques</h2>
+          <dx-data-grid
+            id="idPeriodicite"
+            [dataSource]="periodiciteControleMedicale"
+            keyExpr="idPeriodicite"
+            [showBorders]="true"
+          >
+            <dxi-column [width]="200" dataField="risque" caption="Risque"></dxi-column>
+            <dxi-column [width]="200" dataField="typeControle" caption="Type Controle"></dxi-column>
+            <dxi-column [width]="200" dataField="controle" caption="Controle"></dxi-column>
+            <dxi-column [width]="200" dataField="periodicte" caption="Periodicite"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </dxi-item>
+      <dxi-item title="Controle Medicale " icon="isnotblank">
+        <div>
+          <div style="display: flex;">
+            <h2 class="content-block">Les Controles Medicale associe a ce Employe</h2>
+            <dx-button style="margin-top: 20px" icon="add" type="success" (click)="changeAjouterControleMedicale()"></dx-button>
+          </div>
+          <div *ngIf="dossierMedical.periodiciteMaladieChroniqueDtos">
+            <dx-data-grid
+              id="idemp"
+              [dataSource]="dossierMedical.periodiciteMaladieChroniqueDtos"
+              keyExpr="idPeriodicite"
+              [showBorders]="true"
+            >
+              <dxi-column dataField="number" caption="#"></dxi-column>
+              <dxi-column dataField="controleMedicale" caption="Controle"></dxi-column>
+              <dxi-column dataField="periodicite" caption="Periodicite"></dxi-column>
+              <dxi-column caption="Suprimmer" [width]="140" cellTemplate="action"></dxi-column>
+              <div *dxTemplate="let data of 'action'" style="display: flex;justify-content: center">
+                <dx-button  cellTemplate="action"
+                           icon="remove"
+                           hint="Dettaile"
+                           (click)="suprimmer(data)"
+                >
+                </dx-button>
+              </div>
+            </dx-data-grid>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:end;margin-top: 20px">
+          <dx-button text="Annuler" type="default" routerLink="/listEmployer"></dx-button>
+          <dx-button text="Ajouter" style="margin-left:20px" type="default"routerLink="/listEmployer" (click)="Ajouter($event)"></dx-button>
+          <div>
+          </div>
+        </div>
+      </dxi-item>
+    </dx-tab-panel>
+
+
+
+    <dx-popup
+      [width]="800"
+      [height]="420"
+      [showTitle]="true"
+      title="Ajouter Controle Medicale"
+      [dragEnabled]="false"
+      [showCloseButton]="true"
+      [(visible)]="ajouterControleMedicale"
+    >
+      <dx-form  [formData]="lignPeriode">
+        <p class="content-block">Ajouter Les Controles Medicale</p>
+        <dxi-item itemType="group" [colSpan]="3">
+          <dxi-item dataField="controleMedicale" editorType="dxSelectBox">
+            <dx-select-box
+              [dataSource]="analyse"
+              valueExpr="controle"
+              displayExpr="controle"
+              [(value)]="lignPeriode.controleMedicale"
+              [searchEnabled]="true">
+            </dx-select-box>
+            <dxi-validation-rule type="required" message="Controle Medicale is required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="periodicite" editorType="dxSelectBox">
+            <dx-select-box
+              [dataSource]="periodicite"
+              [(value)]="lignPeriode.periodicite"
+              [searchEnabled]="true">
+            </dx-select-box>
+            <dxi-validation-rule type="required" message="Periodicite is required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item style="display: flex;justify-content: flex-end">
+            <dx-button text="Ajouter" (click)="addControleMedicale()"></dx-button>
+          </dxi-item>
+        </dxi-item>
+      </dx-form>
+    </dx-popup>
+
+
+    <dx-popup
+      [width]="800"
+      [height]="360"
+      [showTitle]="true"
+      title="Ajouter Maladies Chronique"
+      [dragEnabled]="false"
+      [showCloseButton]="true"
+      [(visible)]="ajouterMaladiesChronique"
+    >
+      <dx-form [formData]="dossierMedical">
+        <p class="content-block">Ajouter Maladies Chronique</p>
+        <dxi-item itemType="group" [colSpan]="3">
+          <dxi-item dataField="id" editorType="dxSelectBox">
+            <dx-drop-down-box
+              [dataSource]="maladiechronique"
+              valueExpr="id"
+              displayExpr="malladieChronique"
+              [(value)]="dossierMedical.idMaladieCchroniques"
+              placeholder="Select a value..."
+              [showClearButton]="true"
+              [inputAttr]="{ 'aria-label': 'Owner' }"
+            >
+              <div *dxTemplate="let data of 'content'">
+                <dx-tree-view
+                  [dataSource]="maladiechronique"
+                  dataStructure="plain"
+                  keyExpr="id"
+                  selectionMode="multiple"
+                  showCheckBoxesMode="normal"
+                  [selectNodesRecursive]="true"
+                  displayExpr="malladieChronique"
+                  [selectByClick]="true"
+                  (onSelectionChanged)="onTreeViewSelectionChanged($event)">
+                </dx-tree-view>
+              </div>
+            </dx-drop-down-box>
+          </dxi-item>
+          <dxi-item style="display: flex;justify-content: flex-end">
+            <dx-button text="Ajouter" (click)="addMaladiesChronique()"></dx-button>
+          </dxi-item>
+        </dxi-item>
+      </dx-form>
+    </dx-popup>

@@ -1,0 +1,109 @@
+<div class="content-block">
+  <div class="page dx-card responsive-paddings">
+    <div style="display:flex;justify-content: space-between">
+      <div>
+        <h4 class="content-block" style="margin-top: -10px">Maladies Chronique</h4>
+      </div>
+      <div>
+        <dx-button text="Ajouter Maladie Chronique" type="default" routerLink="/ajouterMchron"></dx-button>
+      </div>
+    </div>
+    <div style="display: flex;justify-content: center">
+      <div>
+        <div style="width:1300px;">
+          <dx-data-grid class="dx-card wide-card"
+                        [dataSource]="maChrons"
+                        [showBorders]="false"
+                        [focusedRowEnabled]="true"
+                        [focusedRowIndex]="0"
+                        [columnAutoWidth]="true"
+                        [columnHidingEnabled]="true"
+                        keyExpr="id">
+
+            <dxo-paging [pageSize]="6"></dxo-paging>
+            <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+            <dxi-column
+              dataField="malladieChronique"
+              caption="Maladie Chronique"
+              [width]="300"
+              [hidingPriority]="2">
+            </dxi-column>
+            <dxi-column
+              dataField="description"
+              caption="Description"
+              [hidingPriority]="2">
+            </dxi-column>
+            <dxi-column [width]="120" caption="Action" cellTemplate="Action"></dxi-column>
+            <div *dxTemplate="let data of 'Action'">
+              <div style="display: flex;justify-content: space-between">
+                <dx-button icon="edit"
+                           (click)="changeModifierMachron(data)"
+                           class="btn"  cellTemplate="Action">
+                </dx-button>
+                <dx-button cellTemplate="Action"
+                           icon="trash"
+                           hint="Supprimer"
+                           (click)="changePopupVisible(data)">
+                </dx-button>
+              </div>
+            </div>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<dx-popup
+  [width]="500"
+  [height]="300"
+  [dragEnabled]="false"
+  [showCloseButton]="true"
+  [(visible)]="popupVisible"
+>
+  <div>
+    <p class="content-block" style="display: flex;justify-content: center;font-size: 18px">
+      Are you sure you want to delete this Maladier Chronique?
+    </p>
+  </div>
+  <div style="display: flex;justify-content: space-around;margin-top: 80px">
+    <dxi-toolbar-item>
+      <dx-button text="YES" (click)="delete()"></dx-button>
+    </dxi-toolbar-item>
+    <dxi-toolbar-item>
+      <dx-button text="NO" (click)="annuler()"></dx-button>
+    </dxi-toolbar-item>
+  </div>
+</dx-popup>
+
+
+<dx-popup
+  *ngIf="ModifiermaChron"
+  [width]="800"
+  [height]="420"
+  [showTitle]="true"
+  title="Modifier Maladie Chronique"
+  [dragEnabled]="false"
+  [showCloseButton]="true"
+  [(visible)]="ModifiermaChron"
+>
+  <form  (submit)="Modifier($event)">
+    <dx-form  [formData]="maChron">
+      <dxi-item dataField="malladieChronique" [editorOptions]="{ stylingMode: 'filled',value:getmaChronById.malladieChronique, placeholder: 'Maladie Chronique', mode: '' }">
+        <dxi-validation-rule type="required" message="Nom Maladier Chronique is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item dataField="description" [editorOptions]="{ stylingMode: 'filled',value:getmaChronById.description, placeholder: 'Description', mode: '' }">
+        <dxi-validation-rule type="required" message="Description is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item
+        itemType="button"
+        [buttonOptions]="submitButtonOption">
+      </dxi-item>
+    </dx-form>
+  </form>
+</dx-popup>

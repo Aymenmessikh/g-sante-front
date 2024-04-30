@@ -26,18 +26,18 @@ export class ChangePasswordFormComponent implements OnInit {
   }
 
   async onSubmit(e: Event) {
-    e.preventDefault();
-    const { password } = this.formData;
-    this.loading = true;
-
-    const result = await this.authService.changePassword(password, this.recoveryCode);
-    this.loading = false;
-
-    if (result.isOk) {
-      this.router.navigate(['/login-form']);
-    } else {
-      notify(result.message, 'error', 2000);
-    }
+    // e.preventDefault();
+    // const { password } = this.formData;
+    // this.loading = true;
+    //
+    // const result = await this.authService.changePassword(password, this.recoveryCode);
+    // this.loading = false;
+    //
+    // if (result.isOk) {
+    //   this.router.navigate(['/login-form']);
+    // } else {
+    //   notify(result.message, 'error', 2000);
+    // }
   }
 
   confirmPassword = (e: ValidationCallbackData) => {

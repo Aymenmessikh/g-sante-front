@@ -1,0 +1,79 @@
+<div class="content-block">
+  <div class="page dx-card responsive-paddings">
+    <div>
+      <div style="margin-top: -40px;display: flex;justify-content: space-between">
+        <div><h2 class="content-block">Fiche Medicale</h2></div>
+        <div>
+        </div>
+        <div style="margin-top: 30px">
+          <dx-button type="default" text="Modifier" (click)="Modifier()"></dx-button>
+        </div>
+      </div>
+      <dx-tab-panel style="display: flex;justify-content: center">
+        <dxi-item title="Fiche" icon="description">
+        <h2 class="content-block" style="margin: 40px 0px">Fiche</h2>
+            <dx-form>
+              <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
+                <dxi-item itemType="group" [colSpan]="4">
+                  <dxi-item dataField="poid"
+                            [editorOptions]="{ stylingMode: 'filled',value:dossierMedical.poid, placeholder: 'Poid', mode: '' }">
+                  </dxi-item>
+                  <dxi-item dataField="taille"
+                            [editorOptions]="{ stylingMode: 'filled',value:dossierMedical.taille, placeholder: 'Taille', mode: '' }">
+                  </dxi-item>
+                </dxi-item>
+                <dxi-item  itemType="group" [colSpan]="4">
+                  <dxi-item dataField="groupSanguin" [editorOptions]="{ stylingMode: 'filled',value:dossierMedical.groupSanguin, placeholder: 'Taille', mode: '' }">
+
+                  </dxi-item>
+                  <dxi-item dataField="Notes"
+                            [editorOptions]="{ stylingMode: 'filled',value:dossierMedical.notes, placeholder: 'Note', mode: '' }">
+                    <dx-text-area [value]="dossierMedical.notes"
+                    ></dx-text-area>
+                  </dxi-item>
+                </dxi-item>
+              </dxi-item>
+            </dx-form>
+        </dxi-item>
+        <dxi-item title="Maladie Chrinique" icon="isnotblank">
+          <h2 class="content-block" style="margin: 40px 0px">Les Maladies Chronique</h2>
+          <dx-data-grid [width]="1000"
+                        id="id"
+                        [dataSource]="maladiechronique"
+                        keyExpr="id"
+                        [showBorders]="true"
+          >
+            <dxi-column dataField="maladieChronique" caption="Malladie Chronique"></dxi-column>
+            <dxi-column dataField="typeControle" caption="Type Controle"></dxi-column>
+            <dxi-column dataField="controle" caption="Controle"></dxi-column>
+            <dxi-column dataField="periodicte" caption="Periodicite"></dxi-column>
+          </dx-data-grid>
+        </dxi-item>
+        <dxi-item title="Vaccin" icon="isnotblank">
+          <h2 class="content-block" style="margin: 40px 0px">Les Vaccins</h2>
+          <dx-data-grid [width]="1000"
+                        id="idd"
+            [dataSource]="vaccins"
+            keyExpr="id"
+            [showBorders]="true"
+          >
+            <dxi-column dataField="vaccin" caption="Vaccin"></dxi-column>
+          </dx-data-grid>
+        </dxi-item>
+        <dxi-item title="Controle Medicale" icon="isnotblank">
+          <h2 class="content-block" style="margin: 40px 0px">Les Controle Medicale Associe au ce Employe</h2>
+          <dx-data-grid [width]="1000"
+                        id="idPer"
+                        [dataSource]="controleMedicaleByFiche"
+                        keyExpr="id"
+                        [showBorders]="true"
+          >
+            <dxi-column dataField="typeControle" caption="Type Controle"></dxi-column>
+            <dxi-column dataField="controle" caption="Controle"></dxi-column>
+            <dxi-column dataField="periodicte" caption="Periodicite"></dxi-column>
+          </dx-data-grid>
+        </dxi-item >
+      </dx-tab-panel>
+    </div>
+  </div>
+</div>

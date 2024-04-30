@@ -1,0 +1,132 @@
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="form" style="margin-top: -50px;margin-bottom: -20px">
+      <div class="dx-fieldset">
+        <dx-button type="default" style="margin-left: 90%;margin-bottom: -50px" text="Modifier" (click)="modifier()"></dx-button>
+        <h6 class="content-block">Information Personnel</h6>
+        <div class="dx-field" style="display: flex ;justify-content: space-between">
+          <div class="dx-field-label">Matricule</div>
+          <div class="dx-field-value">
+            <dx-text-box
+              [value]="employe.matricule"
+              [readOnly]="true"
+              [style.color]="true ? 'black' : 'inherit'"
+              [style.backgroundColor]="true ? 'white' : '#f0f0f0'"
+              class="black-text"
+            ></dx-text-box>
+          </div>
+          <div class="dx-field-label">Nom</div>
+          <div class="dx-field-value">
+            <dx-text-box
+              [value]="employe.nom"
+              [(readOnly)]="edit"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            >
+            </dx-text-box>
+          </div>
+
+          <div class="dx-field-label">Prenom</div>
+          <div class="dx-field-value">
+            <dx-text-box
+              [value]="employe.prenom"
+              [inputAttr]="{ 'aria-label': 'prenom' }"
+              [(readOnly)]="edit"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            >
+            </dx-text-box>
+          </div>
+        </div>
+        <div class="dx-field" style="display: flex;justify-content: space-between">
+          <div class="dx-field-label">Date Naissance</div>
+          <div class="dx-field-value">
+            <dx-date-box
+              [value]="employe.date_naissance"
+              [inputAttr]="{ 'aria-label': 'date_naissance' }"
+              [(readOnly)]="edit"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            >
+            </dx-date-box>
+          </div>
+          <div class="dx-field-label">Sex</div>
+          <div class="dx-field-value">
+            <dx-select-box
+              [inputAttr]="{ 'aria-label': 'sex' }"
+              [value]="employe.sex"
+              [(readOnly)]="edit"
+              [dataSource]="sex"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            ></dx-select-box>
+          </div>
+        </div>
+        <hr>
+        <h6 class="content-block">Adrress</h6>
+        <div class="dx-field" style="display:flex;justify-content: space-between">
+          <div class="dx-field-label">Address</div>
+          <div class="dx-field-value">
+            <dx-text-box
+              [inputAttr]="{ 'aria-label': 'address' }"
+              [value]="employe.address"
+              [(readOnly)]="edit"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            ></dx-text-box>
+          </div>
+          <div class="dx-field-label">Ville</div>
+          <div class="dx-field-value">
+            <dx-text-box
+              [inputAttr]="{ 'aria-label': 'ville' }"
+              [value]="employe.ville"
+              [(readOnly)]="edit"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            >
+            </dx-text-box>
+          </div>
+          <div class="dx-field-label">Code Postal</div>
+          <div class="dx-field-value">
+            <dx-text-box
+              [inputAttr]="{ 'aria-label': 'Mask' }"
+              [value]="employe.codePostal"
+              [(readOnly)]="edit"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            >
+            </dx-text-box>
+          </div>
+        </div>
+        <hr>
+        <h6 class="content-block" style="margin-bottom: -30px">Contact</h6>
+        <div class="dx-field" style="display: flex;justify-content: space-between">
+        </div>
+        <div class="dx-field">
+          <div class="dx-field-label">Email</div>
+          <div class="dx-field-value">
+            <dx-text-box
+              [value]="employe.mail"
+              [inputAttr]="{ 'aria-label': 'mail' }"
+              [(readOnly)]="edit"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            >
+            </dx-text-box>
+          </div>
+          <div class="dx-field-label">Telephone</div>
+          <div class="dx-field-value">
+            <dx-text-box
+              [value]="employe.tel"
+              [inputAttr]="{ 'aria-label': 'tel' }"
+              [(readOnly)]="edit"
+              [style.backgroundColor]="edit ? 'white' : '#f0f0f0'"
+              class="black-text"
+            >
+            </dx-text-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

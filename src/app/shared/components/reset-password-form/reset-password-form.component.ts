@@ -20,19 +20,19 @@ export class ResetPasswordFormComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   async onSubmit(e: Event) {
-    e.preventDefault();
-    const { email } = this.formData;
-    this.loading = true;
-
-    const result = await this.authService.resetPassword(email);
-    this.loading = false;
-
-    if (result.isOk) {
-      this.router.navigate(['/login-form']);
-      notify(notificationText, 'success', 2500);
-    } else {
-      notify(result.message, 'error', 2000);
-    }
+  //   e.preventDefault();
+  //   const { email } = this.formData;
+  //   this.loading = true;
+  //
+  //   const result = await this.authService.resetPassword(email);
+  //   this.loading = false;
+  //
+  //   if (result.isOk) {
+  //     this.router.navigate(['/login-form']);
+  //     notify(notificationText, 'success', 2500);
+  //   } else {
+  //     notify(result.message, 'error', 2000);
+  //   }
   }
 }
 @NgModule({

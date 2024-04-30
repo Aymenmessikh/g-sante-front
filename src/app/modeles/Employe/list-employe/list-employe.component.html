@@ -1,0 +1,78 @@
+<div class="content-block">
+  <div class="page dx-card responsive-paddings">
+    <div style="margin:-27px 20px;display: flex;justify-content: space-between">
+      <h4 class="content-block">List des Employes</h4>
+      <dx-button class="btn" type="default" [routerLink]="['/nvEmployer']" [disabled]="disaple" text="Ajouter Nouveau Employe"></dx-button>
+    </div>
+    <dx-data-grid class="dx-card wide-card"
+                  [dataSource]="employes"
+                  [showBorders]="false"
+                  [focusedRowEnabled]="true"
+                  [focusedRowIndex]="0"
+                  (onRowDblClick)="getDossierMedicale($event)"
+                  [columnAutoWidth]="true"
+                  [columnHidingEnabled]="true"
+                  keyExpr="id">
+      <dxo-paging [pageSize]="7"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxi-column dataField="#" [width]="90" [hidingPriority]="2"></dxi-column>
+      <dxi-column dataField="matricule" [width]="120" caption="Matricule" [hidingPriority]="8"></dxi-column>
+      <dxi-column dataField="nom" caption="Nom" [hidingPriority]="6"></dxi-column>
+      <dxi-column dataField="prenom" caption="Prenom" [hidingPriority]="5"></dxi-column>
+      <dxi-column dataField="mail" caption="E-mail" [hidingPriority]="3"></dxi-column>
+      <dxi-column dataField="post" caption="Post" [hidingPriority]="4"></dxi-column>
+      <dxi-column caption="Fichier Medical" [width]="180" cellTemplate="action"></dxi-column>
+      <div *dxTemplate="let data of 'action'" style="display: flex;justify-content: space-between">
+        <dx-button *ngIf="canAdd(data)" cellTemplate="action"
+                   icon="description"
+                   hint="Dettaile"
+                   (click)="getDossierMedical(data,data)"
+        >
+        </dx-button>
+        <dx-button  *ngIf="!canAdd(data)"
+                    icon="add"
+                    (click)="sendId(data,data)"
+                    hint="Dettaile"
+                    cellTemplate="action">
+        </dx-button>
+        <dx-button cellTemplate="action"
+                   icon="edit"
+                   [disabled]="disaple"
+                   hint="Modifier"
+                   (click)="modifier(data)"
+        >
+        </dx-button>
+        <dx-button cellTemplate="action"
+                   icon="trash"
+                   hint="Supprimer"
+                   [disabled]="disaple"
+                   (click)="deleteEmployer(data)">
+        </dx-button>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>
+<dx-popup
+  [width]="500"
+  [height]="280"
+  [dragEnabled]="false"
+  [showCloseButton]="true"
+  [(visible)]="popupVisible"
+>
+  <div>
+    <p class="content-block" style="display: flex;justify-content: center;font-size: 18px">
+      Are you sure you want to delete this Employe?
+    </p>
+  </div>
+  <div style="display: flex;justify-content: space-around;margin-top: 80px">
+    <dxi-toolbar-item>
+      <dx-button text="YES" (click)="delete()"></dx-button>
+    </dxi-toolbar-item>
+    <dxi-toolbar-item>
+      <dx-button text="NO" (click)="annuler()"></dx-button>
+    </dxi-toolbar-item>
+  </div>
+</dx-popup>
+

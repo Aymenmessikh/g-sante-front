@@ -56,7 +56,8 @@
               "src/themes/generated/theme.base.css",
               "src/themes/generated/theme.additional.css",
               "src/dx-styles.scss",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -121,7 +122,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/apexcharts/dist/apexcharts.min.js"
+            ]
           }
         }
       }
@@ -130,4 +133,5 @@
   "cli": {
     "analytics": false
   }
+
 }

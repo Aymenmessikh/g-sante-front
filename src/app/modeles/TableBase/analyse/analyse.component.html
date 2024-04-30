@@ -1,0 +1,136 @@
+<div class="content-block">
+  <div class="page dx-card responsive-paddings">
+    <div style="display: flex;justify-content: space-between;margin-top: -30px">
+      <h4 class="content-block">Controles Medicale</h4>
+      <dx-button type="default" style="margin-top: 25px" text="Ajouter Controle Medicale" (onClick)="change()"></dx-button>
+    </div>
+    <div style="display: flex;justify-content: center">
+      <div style="width: 1500px;display: flex;justify-content: center">
+        <dx-data-grid class="dx-card wide-card"
+                      [dataSource]="analyses"
+                      [showBorders]="false"
+                      [focusedRowEnabled]="true"
+                      [focusedRowIndex]="0"
+                      [columnAutoWidth]="true"
+                      [columnHidingEnabled]="true"
+                      keyExpr="idControle">
+
+          <dxo-paging [pageSize]="6"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+          <dxi-column [width]="220"
+            dataField="typeControle"
+            caption="Type Controle"
+            [hidingPriority]="2">
+          </dxi-column>
+          <dxi-column [width]="220"
+            dataField="controle"
+            caption="controle"
+            [hidingPriority]="2">
+          </dxi-column>
+          <dxi-column [width]="700"
+            dataField="description"
+            caption="Description"
+            [hidingPriority]="2">
+          </dxi-column>
+          <dxi-column caption="Action" [width]="120" cellTemplate="Modifier"></dxi-column>
+          <div *dxTemplate="let data of 'Modifier'" style="display: flex;justify-content: space-between">
+            <div>
+              <dx-button icon="edit" class="btn" (click)="getAnnalyse(data)"  cellTemplate="Modifier">
+              </dx-button>
+            </div>
+            <div>
+              <dx-button cellTemplate="Modifier"
+                         icon="trash"
+                         hint="Supprimer"
+                         (click)="delete(data)">
+              </dx-button>
+            </div>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+
+  </div>
+</div>
+<dx-popup
+  [width]="500"
+  [height]="300"
+  [dragEnabled]="false"
+  [showCloseButton]="true"
+  [(visible)]="popupVisible"
+>
+  <div>
+    <p class="content-block" style="display: flex;justify-content: center;font-size: 18px">
+      Are you sure you want to delete this Controle Medicale?
+    </p>
+  </div>
+  <div style="display: flex;justify-content: space-around;margin-top: 80px">
+    <dxi-toolbar-item>
+      <dx-button text="YES" (click)="supimmer()"></dx-button>
+    </dxi-toolbar-item>
+    <dxi-toolbar-item>
+      <dx-button text="NO" (click)="annuler()"></dx-button>
+    </dxi-toolbar-item>
+  </div>
+</dx-popup>
+<dx-popup
+  [width]="800"
+  [height]="520"
+  [showTitle]="true"
+  title="Ajouter Controle Medicale"
+  [dragEnabled]="false"
+  [showCloseButton]="true"
+  [(visible)]="AjouterAnalyse"
+>
+  <form  (submit)="Ajouter($event)" style="margin-top: 10px">
+    <dx-form  [formData]="analyse">
+      <dxi-item dataField="typeControle" style="max-width: 400px" [editorOptions]="{ stylingMode: 'filled', placeholder: 'Type controle', mode: '' }">
+        <dxo-label template="Type Controle"></dxo-label>
+        <dxi-validation-rule type="required" message="Type Controle is required"></dxi-validation-rule>
+      </dxi-item>
+      <dxi-item dataField="controle" label="controle Medicale" style="max-width: 400px" [editorOptions]="{ stylingMode: 'filled', placeholder: 'controle', mode: '' }">
+        <dxi-validation-rule type="required" message="controle is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item dataField="description" [editorOptions]="{ stylingMode: 'filled', placeholder: 'Description', mode: '' }">
+        <dxi-validation-rule type="required" message="Description is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item
+        itemType="button"
+        [buttonOptions]="submitButtonOptions">
+      </dxi-item>
+    </dx-form>
+  </form>
+</dx-popup>
+
+<dx-popup *ngIf="AfficherAnalyseById"
+          [width]="800"
+          [height]="520"
+          [showTitle]="true"
+          title="Modifier Analyse Medical"
+          [dragEnabled]="false"
+          [showCloseButton]="true"
+          [(visible)]="ModifierAnalyse"
+>
+  <form  (submit)="Modifer($event)" style="margin-top: 10px">
+    <dx-form  [formData]="analyse">
+      <dxi-item dataField="typeControle" style="max-width: 400px" [editorOptions]="{ stylingMode: 'filled' ,value:AfficherAnalyseById.typeControle, placeholder: 'Analyse', mode: '' }">
+        <dxi-validation-rule type="required" message="Type Controle is required"></dxi-validation-rule>
+      </dxi-item>
+      <dxi-item dataField="controle" style="max-width: 400px" [editorOptions]="{ stylingMode: 'filled' ,value:AfficherAnalyseById.controle, placeholder: 'Analyse', mode: '' }">
+        <dxi-validation-rule type="required" message="Controle is required"></dxi-validation-rule>
+      </dxi-item>
+      <dxi-item dataField="description" [editorOptions]="{ stylingMode: 'filled' ,value:AfficherAnalyseById.description,placeholder: 'Description', mode: '' }">
+        <dxi-validation-rule type="required" message="Description is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item
+        itemType="button"
+        [buttonOptions]="submitButtonOptionsModifier">
+      </dxi-item>
+    </dx-form>
+  </form>
+</dx-popup>
